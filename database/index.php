@@ -9,22 +9,28 @@ require_once 'services/TodosService.php';
 $database = SQLiteDB::getInstance();
 $todosService = new TodosService($database);
 
+try {
+    $database->exec($createTodosTableQuery);
+} catch (PDOException $e) {
+    die("Error creating table: {$e->getMessage()}");
+}
+
 $path = 'todos.json';
 $file = file_get_contents(filename: $path);
 $data = json_decode(json: $file);
 $todos = array_map(
-    callback: function ($todo): Todo {
-        $todoObj = new Todo();
+    callback: function ($item): Todo {
+        $todo = new Todo();
         $now = date('Y-m-d H:i:s');
 
-        $todoObj->id = (int)$todo->id;
-        $todoObj->title = $todo->title;
-        $todoObj->isCompleted = (bool)$todo->isCompleted;
-        $todoObj->isArchived = (bool)$todo->isArchived;
-        $todoObj->lastUpdated = $now;
-        $todoObj->createdAt = $now;
+        $todo->id = (int)$item->id;
+        $todo->title = $item->title;
+        $todo->isCompleted = (bool)$item->completed;
+        $todo->isArchived = (bool)$item->archived;
+        $todo->lastUpdated = $now;
+        $todo->createdAt = $now;
 
-        return $todoObj;
+        return $todo;
     },
     array: $data
 );
