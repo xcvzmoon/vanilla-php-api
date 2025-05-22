@@ -1,8 +1,5 @@
 <?php
 
-require_once 'models/todo.php';
-require_once 'services/TodosService.php';
+declare(strict_types=1);
 
-$todosService = new TodosService();
-
-die(print_r(value: $todosService->all()));
+require_once 'database/index.php';
