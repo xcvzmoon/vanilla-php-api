@@ -2,10 +2,10 @@
 
 class Todo
 {
-    public function __construct(
-        public int $id,
-        public string $title,
-        public bool $completed,
-        public bool $archived
-    ) {}
+    public int $id;
+    public string $title;
+    public bool $isCompleted;
+    public bool $isArchived;
+    public string $lastUpdated;
+    public string $createdAt;
 }
