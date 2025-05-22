@@ -118,11 +118,9 @@ class TodosService
         }
 
         if (empty($fields)) {
-            // Nothing to update
             return false;
         }
 
-        // Update last_updated timestamp to current time
         $fields[] = 'last_updated = CURRENT_TIMESTAMP';
 
         $query = "UPDATE todos SET " . implode(', ', $fields) . " WHERE id = :id";
